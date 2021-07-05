@@ -1,10 +1,8 @@
+import {GreyType} from "../colors/grey";
+import * as React from "react";
+
 type DisabledModel = { border: string, background: string };
 type VariantColor = "primary" | "secondary" | "error" | "success" | "warning" | "info" | string;
-type ComponentStyleProps<T extends FUIThemeProps = any, P = any> = InputStyles<T, P>;
-type ComponentFuncStyleProps<T extends FUIThemeProps = any, P = any> = InputFunctionStyles<T, P>;
-type ComponentStyle<T extends FUIThemeProps = any, P = any> =
-  ComponentStyleProps<T, P>
-  | ComponentFuncStyleProps<T, P>;
 
 interface ColorStyle {
   main: string,
@@ -22,11 +20,27 @@ interface PaletteStyle {
   info: ColorStyle,
   background: { main: string, paper: string },
   disabled: DisabledModel,
+  grey: GreyType,
+}
+
+interface TypographyProps {
+  h1: React.CSSProperties,
+  h2: React.CSSProperties,
+  h3: React.CSSProperties,
+  h4: React.CSSProperties,
+  h5: React.CSSProperties,
+  h6: React.CSSProperties,
+  body1: React.CSSProperties ,
+  body2: React.CSSProperties,
+  caption: React.CSSProperties,
+  button: React.CSSProperties,
+  subtitle1: React.CSSProperties,
+  subtitle2: React.CSSProperties,
+  overline: React.CSSProperties,
 }
 
 export interface FUIThemeProps {
-  //components: ComponentsStyle
   palette: PaletteStyle,
   color: (color?: VariantColor) => ColorStyle,
-  window: {width: number, height: number}
+  typography: TypographyProps
 }
