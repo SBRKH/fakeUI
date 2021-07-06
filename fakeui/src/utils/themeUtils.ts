@@ -14,7 +14,7 @@ export const defaultTheme = (): FUIThemeProps => {
         main: "#DD639D",
         light: "#ff94c7",
         dark: "#db5a97",
-        text: "#222222"
+        text: "#fff"
       },
       error: {
         main: "#ef476f",
@@ -51,6 +51,7 @@ export const defaultTheme = (): FUIThemeProps => {
       grey: grey
     },
     typography: {
+      text: "#222222",
       h1: {
         display: "block",
         fontSize: "2em",

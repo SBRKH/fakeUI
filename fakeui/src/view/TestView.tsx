@@ -2,6 +2,7 @@ import * as React from "react";
 import {Button} from "../components/Button";
 import {Typography} from "../components/Typography";
 import {FaAccusoft, FaBeer} from "react-icons/all";
+import {Card} from "../components/Card";
 
 export const TestView: React.FC = () => {
   return (
@@ -26,10 +27,14 @@ export const TestView: React.FC = () => {
       <Button color={"primary"} startIcon={<FaBeer />} endIcon={<FaAccusoft />} size={"tiny"}>SAUVEGARDER 1</Button>
       <Button color={"secondary"} startIcon={<FaBeer />} endIcon={<FaAccusoft />} size={"small"}>SAUVEGARDER 1</Button>
       <Button color={"primary"} startIcon={<FaBeer />} endIcon={<FaAccusoft />} variant={"contained"} size={"medium"}>SAUVEGARDER 1</Button>
-      <Button color={"secondary"} startIcon={<FaBeer />} endIcon={<FaAccusoft />} size={"large"}>SAUVEGARDER 1</Button>
-      <Button color={"primary"} startIcon={<FaBeer />} endIcon={<FaAccusoft />}>SAUVEGARDER 1</Button>
+      <Button color={"secondary"} startIcon={<FaBeer />} endIcon={<FaAccusoft />} variant={"contained"} size={"large"}>SAUVEGARDER 1</Button>
+      <Button color={"primary"} startIcon={<FaBeer />} endIcon={<FaAccusoft />} onClick={() => alert("toto")}>SAUVEGARDER 1</Button>
 
       <Button color={"secondary"} startIcon={<FaBeer />} endIcon={<FaAccusoft />} fullWidth={true}>SAUVEGARDER</Button>
+
+        <Card title={"Desk 8"} subtitle={"29 Nov 2020, 03:30pm - 09:30pm"}>
+            test
+        </Card>
     </>
   );
 }

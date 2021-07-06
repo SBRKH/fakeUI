@@ -1,117 +1,123 @@
-import styled from "styled-components";
+import React, {ButtonHTMLAttributes} from "react";
 import {ButtonColor, getColorPrimary} from "../utils/colorUtils";
-import React from "react";
+import {FUIThemeProps} from "../interfaces/FUIThemeProps";
+import {createUseStyles, useTheme} from "react-jss";
+import clsx from "clsx";
 
-interface StyledButtonProps {
+
+type ButtonSizeType = 'tiny' | 'small' | 'medium' | 'large';
+
+interface ButtonProps {
+  startIcon?: React.ReactNode,
+  endIcon?: React.ReactNode,
   color?: ButtonColor,
   disabled?: boolean,
   fullWidth?: boolean,
   variant?: 'contained' | 'outlined',
-  size?: 'tiny' | 'small' | 'medium' | 'large'
+  size?: ButtonSizeType,
 }
 
-interface ButtonProps extends StyledButtonProps {
-  startIcon?: React.ReactNode,
-  endIcon?: React.ReactNode,
-}
-
-const StyledButton = styled.button.attrs<StyledButtonProps>(props => ({
-  color: getColorPrimary(props.theme, props.color),
-  disabled: props.disabled || false,
-  fullWidth: props.fullWidth || false,
-  variant: props.variant || 'outlined',
-  size: props.size || 'medium',
-}))<any>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  // We disable the focus ring for mouse, touch and keyboard users.
-  outline: 0;
-  border: 0;
-  margin: ; // Remove the margin in Safari
-  border-radius: 8px;
-  cursor: pointer;
-  user-select: none;
-  vertical-align: middle;
-  -moz-appearance: none; // Reset
-  -webkit-appearance: none; // Reset
-  text-decoration: none;
-  ${props => props.theme.typography.button}
-  ${(props) => props.fullWidth && ` width: 100%;`}
-  ${(props) => {
-  switch (props.variant) {
-    case "outlined":
-      return `border-color: ${props.color.main};
-            &:hover {
-              border-color: ${props.color.dark};
-              color: ${props.color.dark} !important;
-            };
-            border: 1px solid;
-            background-color: inherit;
-            color: ${props.color.main} !important;
-            `;
-    case "contained":
-      return `background-color: ${props.color.main};
-            &:hover {
-              background-color: ${props.color.dark};
-            };`;
-  }
-}};
-  color: ${props => props.theme.palette.primary.text};
-   ${(props) => {
-  switch (props.size) {
+function getFontSize(size?: ButtonSizeType) {
+  switch (size) {
     case "tiny":
-      return `
-          font-size: 8px;
-          padding: 3px;
-        `;
+      return 8;
     case "small":
-      return `
-          font-size: 12px;
-          padding: 5px;
-        `;
+      return 12;
     case "medium":
-      return `
-        font-size: 14px;
-        padding: 5px;
-        `;
+    default:
+      return 14;
     case "large":
-      return `
-        padding: 10px;
-        font-size: 18px;
-        `;
+      return 18;
   }
 }
-}`;
 
-const WithIcon = styled.div`
-  position: relative;
-  top: 2px;
-  left: 0px;
-  margin-left: 5px;
-  margin-right: 5px;
-  `;
+function getPaddingSize(size?: ButtonSizeType) {
+  switch (size) {
+    case "tiny":
+      return 3;
+    case "small":
+    case "medium":
+    default:
+      return 5;
+    case "large":
+      return 10;
+  }
+}
 
+const useStyles = createUseStyles((theme: FUIThemeProps) => ({
+  root: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    boxSizing: "border-box",
+    WebkitTapHighlightColor: "transparent",
+    // We disable the focus ring for mouse, touch and keyboard users.
+    outline: 0,
+    border: 0,
+    borderRadius: 8,
+    cursor: "pointer",
+    userSelect: "none",
+    verticalAlign: "middle",
+    mozAppearance: "none",
+    WebkitAppearance: "none", // Reset
+    textDecoration: "none",
+    ...theme.typography.button,
+    fontSize: (props: any) => getFontSize(props.size),
+    padding: (props: any) => getPaddingSize(props.size)
+  },
+  withIcon: {
+    position: "relative",
+    top: 2,
+    left: 0,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  outlined: {
+    borderColor: (props: any) => props.color.main,
+    '&:hover': {
+      borderColor: (props: any) => props.color.dark,
+      color: (props: any) => props.color.dark,
+    },
+    border: "1px solid",
+    backgroundColor: "inherit",
+    color: (props: any) => props.color.main,
+  },
+  contained: {
+    color:  (props: any) => props.color.text,
+    backgroundColor: (props: any) => props.color.main,
+    '&:hover': {
+      backgroundColor: (props: any) => props.color.dark,
+    },
+  },
+  fullWidth: {
+    width: "100%"
+  }
+}));
 
-export const Button: React.FC<ButtonProps> = (props) => {
+export const Button: React.FC<ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>> = (props) => {
+  const {
+    startIcon,
+    endIcon,
+    children,
+    size = "medium",
+    color = "primary",
+    fullWidth = false,
+    variant = "outlined",
+    ...rest
+  } = props;
+  const theme = useTheme<FUIThemeProps>();
+  const classes = useStyles({size, color: getColorPrimary(theme, color)});
+
   return (
-    <StyledButton {...props}>
-      {
-        props.startIcon &&
-        <WithIcon>
-          {props.startIcon}
-        </WithIcon>
-      }
+    <button className={clsx(classes.root, {
+      [classes.outlined]: variant === "outlined",
+      [classes.contained]: variant === "contained",
+      [classes.fullWidth]: fullWidth
+    })} {...rest}>
+      {props.startIcon && <div className={classes.withIcon}>{props.startIcon}</div>}
       {props.children}
-      {
-        props.endIcon &&
-        <WithIcon>
-          {props.endIcon}
-        </WithIcon>
-      }
-    </StyledButton>
+      {props.endIcon && <div className={classes.withIcon}>{props.endIcon}</div>}
+    </button>
   );
 }

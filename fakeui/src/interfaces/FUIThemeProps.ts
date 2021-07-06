@@ -24,6 +24,7 @@ interface PaletteStyle {
 }
 
 interface TypographyProps {
+  text: string,
   h1: React.CSSProperties,
   h2: React.CSSProperties,
   h3: React.CSSProperties,

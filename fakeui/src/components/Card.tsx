@@ -1,26 +1,30 @@
-import styled from "styled-components";
 import React from "react";
+import { Typography } from "./Typography";
+import grey from "../colors/grey";
 
 interface FUICardProps {
-  icon: React.ReactNode,
+  icon?: React.ReactNode,
   title: string,
-  subtitle: string,
+  subtitle?: string,
 }
 
-const StyledCard = styled.div`
+/*const StyledCard = styled.div`
    position: 'relative';
-   backgroundColor: ${props => props.theme.palette.background.paper};
-   borderRadius: 4,
-   boxShadow: '0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12)',
-   border: 'none',
-   width: '100%',
-`;
+   background-color: ${props => props.theme.palette.background.paper};
+   border-radius: 4px;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   border: 'none';
+   width: '100%';
+   margin: 5px;
+`;*/
 
 export const Card: React.FC<FUICardProps> = (props) => {
+  const { title, subtitle} = props;
 
   return (
-    <StyledCard>
-
-    </StyledCard>
+    <div>
+      <Typography color={"black"} variant={"h4"}>{title}</Typography>
+      {subtitle && <Typography color={grey[700]} variant={"body2"}>{subtitle}</Typography>}
+    </div>
   );
 }

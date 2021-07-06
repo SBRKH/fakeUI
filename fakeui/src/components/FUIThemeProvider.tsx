@@ -1,7 +1,7 @@
 import * as React from "react";
-import {ThemeProvider} from "styled-components";
 import {FUIThemeProps} from "../interfaces/FUIThemeProps";
 import {defaultTheme} from "../utils/themeUtils";
+import {ThemeProvider} from "react-jss";
 
 interface FUIThemeProviderProps {
   theme?: FUIThemeProps;
