@@ -1,4 +1,4 @@
-import {ColorVariant, getColor, getColorPrimary} from "../utils/colorUtils";
+import {ColorVariant, getColor} from "../utils/colorUtils";
 import React from "react";
 import {FUIThemeProps} from "../interfaces/FUIThemeProps";
 import {createUseStyles} from "react-jss";
@@ -12,7 +12,6 @@ interface FUITypographyProps {
 }
 
 function getTypographyStyle(variant: TypographyVariant, theme: FUIThemeProps) {
-  console.log("variant==", variant, "theme===", theme);
   switch (variant) {
     case "h1":
       return theme.typography.h1;
@@ -46,10 +45,10 @@ function getTypographyStyle(variant: TypographyVariant, theme: FUIThemeProps) {
 
 const useStyles = createUseStyles((theme: FUIThemeProps) => {
   return ({
-    root: {
-      color: (props: any) => getColor(theme, props.color),
-      ...(props: any) => () => getTypographyStyle(props.variant, theme),
-    },
+    root: (props:any) => ({
+      color: getColor(theme, props.color),
+      ...getTypographyStyle(props.variant, theme)
+    }),
   });
 });
 
